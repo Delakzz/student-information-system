@@ -12,7 +12,7 @@ var DB *sql.DB
 
 func Connect() {
 	var err error
-	DB, err = sql.Open("sqlite3", "./student.db")
+	DB, err = sql.Open("sqlite3", "internal/db/student.db")
 	if err != nil {
 		log.Fatalf("failed to open database: %v", err)
 	}
