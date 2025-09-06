@@ -1,39 +1,15 @@
 package models
 
 type Student struct {
-	st_id     int
-	fname     string
-	mname     string
-	lname     string
-	sex       string
-	birthdate string
-	year      int
+	StID      int    `db:"st_id"`
+	Fname     string `db:"fname"`
+	Mname     string `db:"mname"`
+	Lname     string `db:"lname"`
+	Sex       string `db:"sex"`
+	Birthdate string `db:"birthdate"`
+	Year      int    `db:"year"`
 }
 
-func (s *Student) GetId() int {
-	return s.st_id
-}
-
-func (s *Student) GetFirstName() string {
-	return s.fname
-}
-
-func (s *Student) GetMiddleName() string {
-	return s.mname
-}
-
-func (s *Student) GetLastName() string {
-	return s.lname
-}
-
-func (s *Student) GetSex() string {
-	return s.sex
-}
-
-func (s *Student) GetBirthday() string {
-	return s.birthdate
-}
-
-func (s *Student) GetYear() int {
-	return s.year
+func (s *Student) GetFullName() string {
+	return s.Lname + ", " + s.Fname
 }

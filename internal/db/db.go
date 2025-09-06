@@ -10,7 +10,7 @@ import (
 
 var DB *sql.DB
 
-func Connect() {
+func Connect() *sql.DB {
 	var err error
 	DB, err = sql.Open("sqlite3", "internal/db/student.db")
 	if err != nil {
@@ -22,4 +22,5 @@ func Connect() {
 	}
 
 	fmt.Println("Connected to SQLite database!")
+	return DB
 }
