@@ -13,7 +13,6 @@ func NewStudentRepository(db *sql.DB) *StudentRepository {
 	return &StudentRepository{DB: db}
 }
 
-// create
 func (r *StudentRepository) Create(student models.Student) error {
 	_, err := r.DB.Exec(`
 	INSERT INTO Students (fname, mname, lname, sex, birthdate, year)
@@ -23,7 +22,6 @@ func (r *StudentRepository) Create(student models.Student) error {
 	return err
 }
 
-// read
 func (r *StudentRepository) GetByID(id int) (*models.Student, error) {
 	row := r.DB.QueryRow(`
 	SELECT * 
@@ -39,7 +37,6 @@ func (r *StudentRepository) GetByID(id int) (*models.Student, error) {
 	return &s, nil
 }
 
-// update
 func (r *StudentRepository) Update(student models.Student) error {
 	_, err := r.DB.Exec(`
 	UPDATE Students
@@ -50,13 +47,11 @@ func (r *StudentRepository) Update(student models.Student) error {
 	return err
 }
 
-// delete
 func (r *StudentRepository) Delete(id int) error {
 	_, err := r.DB.Exec(`DELETE FROM Students WHERE st_id = ?`, id)
 	return err
 }
 
-// get all
 func (r *StudentRepository) GetAll() ([]models.Student, error) {
 	rows, err := r.DB.Query(`SELECT * FROM Students`)
 
