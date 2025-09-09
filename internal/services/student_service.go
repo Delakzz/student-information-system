@@ -2,7 +2,6 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 	"student-information-system/internal/models"
 	"student-information-system/internal/repositories"
@@ -24,12 +23,7 @@ func (s *StudentService) Create(student models.Student) error {
 		return errors.New("invalid sex")
 	}
 	student.Sex = strings.ToUpper(student.Sex)
-	err := s.repo.Create(student)
-	if err != nil {
-		return err
-	}
-	fmt.Println("\nAdded successfully!")
-	return nil
+	return s.repo.Create(student)
 }
 
 func (s *StudentService) GetById(id int) (*models.Student, error) {

@@ -2,6 +2,7 @@ package menu
 
 import (
 	"fmt"
+	"strings"
 	"student-information-system/internal/models"
 	"student-information-system/internal/services"
 	"student-information-system/internal/utils"
@@ -37,11 +38,7 @@ func CreateStudent(s *services.StudentService) error {
 		Year:      yearLevel,
 	}
 
-	err := s.Create(student)
-	if err != nil {
-		return err
-	}
-	return nil
+	return s.Create(student)
 }
 
 func ViewStudents(s *services.StudentService) error {
@@ -99,22 +96,32 @@ func UpdateStudent(s *services.StudentService) error {
 	}
 }
 
-func DeleteStudent(s *services.StudentService) {
+func DeleteStudent(s *services.StudentService) error {
 	for {
 		id := utils.ReadInt("\nEnter ID: ")
 
 		if id == 0 {
-			break
+			return nil
 		}
 
-		student, err := s.GetById(id)
+		_, err := s.GetById(id)
 
 		if err != nil {
-			fmt.Println("Invalid ID.")
+			fmt.Println("ID not found.")
 			continue
 		}
-		s.Delete(student.StID)
-		fmt.Println("Deletion is successful!")
-		break
+		for {
+			choice := utils.ReadString("Proceed deletion? (y/n): ")
+			if strings.ToLower(choice) == "y" {
+				s.Delete(id)
+				fmt.Println("Deletion successful")
+				return nil
+			} else if strings.ToLower(choice) == "n" {
+				fmt.Println("Deletion did not proceed")
+				return nil
+			} else {
+				fmt.Println("Invalid input.")
+			}
+		}
 	}
 }
