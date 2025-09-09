@@ -50,7 +50,7 @@ func ViewStudents(s *services.StudentService) error {
 
 	fmt.Println()
 	for i, s := range students {
-		fmt.Printf("%d. %s %s %s, a %s-year student, %s birthday is on %s\n", i+1, s.Fname, s.Mname, s.Lname, s.GetYearSuffix(), s.GetPronoun(), s.Birthdate)
+		fmt.Printf("%d. %s\n", i+1, s.GetStudentDetails())
 	}
 
 	return nil
@@ -66,14 +66,17 @@ func UpdateStudent(s *services.StudentService) error {
 		}
 
 		if err != nil {
-			fmt.Println("Invalid ID.")
+			fmt.Println(err)
 			continue
 		}
 
+		fmt.Println("\nStudent info:", student.GetStudentDetails())
 		ShowMenu("studentFields")
 		choice := utils.ReadInt("Enter choice: ")
 
 		switch choice {
+		case 0:
+			return nil
 		case 1:
 			student.Fname = utils.ReadString("Enter new first name: ")
 		case 2:

@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type Student struct {
 	StID      int    `db:"st_id"`
 	Fname     string `db:"fname"`
@@ -34,4 +36,8 @@ func (s *Student) GetPronoun() string {
 		return "his"
 	}
 	return "her"
+}
+
+func (s *Student) GetStudentDetails() string {
+	return fmt.Sprintf("%s %s %s, a %s-year student, whose birthday is on %s", s.Fname, s.Mname, s.Lname, s.GetYearSuffix(), s.Birthdate)
 }
