@@ -2,6 +2,8 @@ package services
 
 import (
 	"errors"
+	"fmt"
+	"strings"
 	"student-information-system/internal/models"
 	"student-information-system/internal/repositories"
 )
@@ -18,10 +20,16 @@ func (s *StudentService) Create(student models.Student) error {
 	if student.Fname == "" || student.Lname == "" {
 		return errors.New("first and last name cannot be empty")
 	}
-	if student.Sex != "M" && student.Sex != "F" {
+	if sex := strings.ToUpper(student.Sex); sex != "M" && sex != "F" {
 		return errors.New("invalid sex")
 	}
-	return s.repo.Create(student)
+	student.Sex = strings.ToUpper(student.Sex)
+	err := s.repo.Create(student)
+	if err != nil {
+		return err
+	}
+	fmt.Println("\nAdded successfully!")
+	return nil
 }
 
 func (s *StudentService) GetById(id int) (*models.Student, error) {

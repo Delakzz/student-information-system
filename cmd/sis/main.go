@@ -5,6 +5,7 @@ import (
 	"student-information-system/internal/db"
 	"student-information-system/internal/menu"
 	"student-information-system/internal/repositories"
+	"student-information-system/internal/services"
 )
 
 // "fmt"
@@ -20,6 +21,7 @@ func main() {
 	// db.RunSeeds()
 
 	studentRepo := repositories.NewStudentRepository(db)
+	studentService := services.NewStudentService(studentRepo)
 
 	// s := models.Student{
 	// 	Fname:     "John",
@@ -79,7 +81,7 @@ func main() {
 				fmt.Println("Invalid option")
 			}
 		case "student":
-			menu.StudentMenu(studentRepo, choice)
+			menu.StudentMenu(studentService, choice)
 		default:
 			fmt.Printf("You selected: %s -> %s\n", currentMenu, menu.MENUS[currentMenu][choice])
 		}

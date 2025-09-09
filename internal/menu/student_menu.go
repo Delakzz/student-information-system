@@ -3,11 +3,11 @@ package menu
 import (
 	"fmt"
 	"student-information-system/internal/models"
-	"student-information-system/internal/repositories"
+	"student-information-system/internal/services"
 	"student-information-system/internal/utils"
 )
 
-func StudentMenu(s *repositories.StudentRepository, choice int) {
+func StudentMenu(s *services.StudentService, choice int) {
 	switch choice {
 	case 1:
 		CreateStudent(s)
@@ -20,7 +20,7 @@ func StudentMenu(s *repositories.StudentRepository, choice int) {
 	}
 }
 
-func CreateStudent(s *repositories.StudentRepository) error {
+func CreateStudent(s *services.StudentService) error {
 	fname := utils.ReadString("\nEnter first name: ")
 	mname := utils.ReadString("Enter middle initial: ")
 	lname := utils.ReadString("Enter last name: ")
@@ -37,10 +37,14 @@ func CreateStudent(s *repositories.StudentRepository) error {
 		Year:      yearLevel,
 	}
 
-	return s.Create(student)
+	err := s.Create(student)
+	if err != nil {
+		return err
+	}
+	return nil
 }
 
-func ViewStudents(s *repositories.StudentRepository) error {
+func ViewStudents(s *services.StudentService) error {
 	students, err := s.GetAll()
 
 	if err != nil {
@@ -49,16 +53,16 @@ func ViewStudents(s *repositories.StudentRepository) error {
 
 	fmt.Println()
 	for i, s := range students {
-		fmt.Printf("(%d) %s %s %s, a %s-year student, %s birthday is on %s\n", i+1, s.Fname, s.Mname, s.Lname, s.GetYearSuffix(), s.GetPronoun(), s.Birthdate)
+		fmt.Printf("%d. %s %s %s, a %s-year student, %s birthday is on %s\n", i+1, s.Fname, s.Mname, s.Lname, s.GetYearSuffix(), s.GetPronoun(), s.Birthdate)
 	}
 
 	return nil
 }
 
-func UpdateStudent(s *repositories.StudentRepository) error {
+func UpdateStudent(s *services.StudentService) error {
 	for {
 		id := utils.ReadInt("\nEnter ID: ")
-		student, err := s.GetByID(id)
+		student, err := s.GetById(id)
 
 		if id == 0 {
 			return nil
@@ -95,7 +99,7 @@ func UpdateStudent(s *repositories.StudentRepository) error {
 	}
 }
 
-func DeleteStudent(s *repositories.StudentRepository) {
+func DeleteStudent(s *services.StudentService) {
 	for {
 		id := utils.ReadInt("\nEnter ID: ")
 
@@ -103,7 +107,7 @@ func DeleteStudent(s *repositories.StudentRepository) {
 			break
 		}
 
-		student, err := s.GetByID(id)
+		student, err := s.GetById(id)
 
 		if err != nil {
 			fmt.Println("Invalid ID.")
