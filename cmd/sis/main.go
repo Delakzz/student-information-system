@@ -91,7 +91,7 @@ func main() {
 		case "unit_type":
 			menu.UnitTypeMenu(unitTypeService, choice)
 		case "unit":
-			menu.UnitMenu(unitService, choice)
+			menu.UnitMenu(unitService, unitTypeService, choice)
 		default:
 			fmt.Printf("You selected: %s -> %s\n", currentMenu, menu.S[currentMenu][choice])
 		}
