@@ -28,3 +28,7 @@ func ReadInt(prompt string) int {
 		return value
 	}
 }
+
+func CheckInvalidID(id int) bool {
+	return id > 0
+}

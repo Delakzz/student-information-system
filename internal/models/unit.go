@@ -1,24 +1,18 @@
 package models
 
-type Units struct {
-	unit_id      int
-	unit_type_id int
-	unit_name    string
-	unit_acronym string
+import "fmt"
+
+type Unit struct {
+	ID      int
+	UTypeID int
+	Name    string
+	Acronym string
 }
 
-func (u *Units) GetUnitId() int {
-	return u.unit_id
+func (u Unit) GetID() int {
+	return u.ID
 }
 
-func (u *Units) GetTypeId() int {
-	return u.unit_type_id
-}
-
-func (u *Units) GetName() string {
-	return u.unit_name
-}
-
-func (u *Units) GetAcronym() string {
-	return u.unit_acronym
+func (u Unit) GetDetails() string {
+	return fmt.Sprintf("%s (%s)", u.Name, u.Acronym)
 }

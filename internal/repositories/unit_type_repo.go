@@ -59,13 +59,13 @@ func (r *UnitTypeRepository) GetAll() ([]models.UnitType, error) {
 	}
 	defer rows.Close()
 
-	unit_types := []models.UnitType{}
+	var unitTypes []models.UnitType
 	for rows.Next() {
 		ut := models.UnitType{}
 		if err := rows.Scan(&ut.Id, &ut.Name); err != nil {
 			return nil, err
 		}
-		unit_types = append(unit_types, ut)
+		unitTypes = append(unitTypes, ut)
 	}
-	return unit_types, nil
+	return unitTypes, nil
 }

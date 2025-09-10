@@ -2,7 +2,6 @@ package menu
 
 import (
 	"fmt"
-	"strings"
 	"student-information-system/internal/models"
 	"student-information-system/internal/services"
 	"student-information-system/internal/utils"
@@ -58,7 +57,10 @@ func UpdateUnitType(s *services.UnitTypeService) error {
 		}
 		if choice > 0 && choice < len(unitTypes)+1 {
 			newName := utils.ReadString("Enter new name: ")
-			s.Update(unitTypes, newName, choice)
+			err := s.Update(unitTypes, newName, choice)
+			if err != nil {
+				return err
+			}
 			return nil
 		}
 		fmt.Println("Input out of range.")
@@ -80,18 +82,9 @@ func DeleteUnitType(s *services.UnitTypeService) error {
 			continue
 		}
 
-		for {
-			choice := utils.ReadString("Proceed deletion? (y/n): ")
-			if strings.ToLower(choice) == "y" {
-				s.Delete(id)
-				fmt.Println("Deletion successful")
-				return nil
-			} else if strings.ToLower(choice) == "n" {
-				fmt.Println("Deletion did not proceed")
-				return nil
-			} else {
-				fmt.Println("Invalid input.")
-			}
+		err = ProceedDeletion(s, id)
+		if err != nil {
+			return err
 		}
 	}
 }

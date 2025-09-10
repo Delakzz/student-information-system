@@ -5,6 +5,7 @@ import (
 	"strings"
 	"student-information-system/internal/models"
 	"student-information-system/internal/repositories"
+	"student-information-system/internal/utils"
 )
 
 type UnitTypeService struct {
@@ -39,7 +40,7 @@ func (s *UnitTypeService) Update(unitTypes []models.UnitType, name string, idx i
 }
 
 func (s *UnitTypeService) Delete(id int) error {
-	if checkInvalidID(id) {
+	if utils.CheckInvalidID(id) {
 		return s.repo.Delete(id)
 	}
 	return errors.New("invalid ID")
@@ -47,8 +48,4 @@ func (s *UnitTypeService) Delete(id int) error {
 
 func (s *UnitTypeService) GetAll() ([]models.UnitType, error) {
 	return s.repo.GetAll()
-}
-
-func checkInvalidID(id int) bool {
-	return id > 0
 }

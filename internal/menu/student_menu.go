@@ -116,7 +116,10 @@ func DeleteStudent(s *services.StudentService) error {
 		for {
 			choice := utils.ReadString("Proceed deletion? (y/n): ")
 			if strings.ToLower(choice) == "y" {
-				s.Delete(id)
+				err := s.Delete(id)
+				if err != nil {
+					return err
+				}
 				fmt.Println("Deletion successful")
 				return nil
 			} else if strings.ToLower(choice) == "n" {

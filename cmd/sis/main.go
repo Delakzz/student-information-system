@@ -26,6 +26,9 @@ func main() {
 	unitTypeRepo := repositories.NewUnitTypeRepository(db)
 	unitTypeService := services.NewUnitTypeService(unitTypeRepo)
 
+	unitRepo := repositories.NewUnitRepository(db)
+	unitService := services.NewUnitService(unitRepo)
+
 	// s := models.Student{
 	// 	Fname:     "John",
 	// 	Mname:     "K",
@@ -87,8 +90,10 @@ func main() {
 			menu.StudentMenu(studentService, choice)
 		case "unit_type":
 			menu.UnitTypeMenu(unitTypeService, choice)
+		case "unit":
+			menu.UnitMenu(unitService, choice)
 		default:
-			fmt.Printf("You selected: %s -> %s\n", currentMenu, menu.MENUS[currentMenu][choice])
+			fmt.Printf("You selected: %s -> %s\n", currentMenu, menu.S[currentMenu][choice])
 		}
 	}
 }

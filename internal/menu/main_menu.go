@@ -2,9 +2,12 @@ package menu
 
 import (
 	"fmt"
+	"strings"
+	"student-information-system/internal/repositories"
+	"student-information-system/internal/utils"
 )
 
-var MENUS = map[string]map[int]string{
+var S = map[string]map[int]string{
 	"main": {
 		1: "Manage Students",
 		2: "Manage Enrollments",
@@ -93,14 +96,33 @@ var MENUS = map[string]map[int]string{
 
 func ShowMenu(menu string) {
 	fmt.Println()
-	for i := 1; i < len(MENUS[menu]); i++ {
-		if text, ok := MENUS[menu][i]; ok {
+	for i := 1; i < len(S[menu]); i++ {
+		if text, ok := S[menu][i]; ok {
 			fmt.Printf("[%d] %s\n", i, text)
 		}
 	}
 
-	if text, ok := MENUS[menu][0]; ok {
+	if text, ok := S[menu][0]; ok {
 		fmt.Printf("[0] %s\n", text)
 	}
 	fmt.Println()
+}
+
+func ProceedDeletion(s repositories.Deletable, id int) error {
+	for {
+		choice := utils.ReadString("Proceed deletion? (y/n): ")
+		if strings.ToLower(choice) == "y" {
+			err := s.Delete(id)
+			if err != nil {
+				return err
+			}
+			fmt.Println("Deletion successful")
+			return nil
+		} else if strings.ToLower(choice) == "n" {
+			fmt.Println("Deletion did not proceed")
+			return nil
+		} else {
+			fmt.Println("Invalid input.")
+		}
+	}
 }
